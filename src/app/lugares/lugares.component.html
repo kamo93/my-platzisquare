@@ -1,0 +1,79 @@
+<agm-map [latitude]="lat" [longitude]="lng">
+  <agm-marker *ngFor="let negocio of negocios" [latitude]="negocio.geoPosition.lat"
+              [longitude]="negocio.geoPosition.lng">
+  </agm-marker>
+</agm-map>
+<hr/>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-pulse-rise"></ngx-spinner>
+<div class="container">
+  <div class="row">
+      <div id="firstAnimation" [@firstAnimationContainer]="state"
+         (@firstAnimationContainer.start)="animationStarted($event)"
+         (@firstAnimationContainer.done)="animationDone($event)"
+    ></div>
+    <div>
+      <button class="btn btn-dark " (click)="startAnimation()">Animar</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-8 col-md-8">
+      <h2 class="d-inline-block ">Lugares Cercanos</h2>
+      <a class="btn btn-primary float-right" routerLink="/crear/new">Crear nuevo negocio</a>
+      <div class="alert alert-danger" role="alert" *ngIf="errorService">
+        No se pudo cargar los lugares
+        <p class="font-weight-bold">msg: {{errorService.statusText}}</p>
+        <p class="font-weight-bold">code: {{errorService.status}}</p>
+      </div>
+      <ul class="list-group">
+        <ng-container *ngFor="let negocio of negocios">
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-10">
+                <a routerLink="/detalle/{{ negocio.id }}">
+                  {{ negocio.nombre }}
+                </a>
+                <span class="oi oi-star text-warning mr-2" *ngIf="negocio.plan === 'pagado'"></span>
+                <span>{{negocio.id | date | uppercase}}</span>
+                <p [innerHTML]="negocio.descripcion | linkifystr"></p>
+              </div>
+              <div class="col-2 d-flex justify-content-center align-self-center">
+                <a routerLink="/crear/edit/" [queryParams]="{ id: negocio.id }">
+                  <span class="oi oi-pencil float-right text-primary"> </span>
+                </a>
+              </div>
+            </div>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+    <div class="col-4 col-md-4" [@outstandingPlaces]="animateOutstandingPlaces">
+      <h2>Destacados</h2>
+      <div class="card">
+        <ng-container *ngFor="let negocio of negocios | outstandingFilter">
+          <div class="card-body alert-primary">
+            <a routerLink="/detalle/{{ negocio.id }}">
+              {{ negocio.nombre }}
+            </a>
+            <span>{{negocio.id | date | uppercase}}</span>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+<ul class="list-group">
+  <ng-container *ngFor="let negocio of negocios; odd as negocioImpar" [ngSwitch]="negocio.cercania">
+    <a appContarClicks routerLink="/detalle/{{ negocio.id }}">
+      <li
+        class="list-group-item"
+        [ngStyle]="{ color: negocio.active ? 'black' : 'grey' }"
+        [ngClass]="{ oddBusiness: negocioImpar }"
+        [appResaltar]="negocio.plan"
+      >
+        {{ negocio.nombre }} - <span *ngSwitchCase="1" style="color: green">Muy cercano</span>
+        <span *ngSwitchCase="2" style="color: black">cercano</span>
+        <span *ngSwitchCase="3" style="color: red">lejos</span>
+      </li>
+    </a>
+  </ng-container>
+</ul>

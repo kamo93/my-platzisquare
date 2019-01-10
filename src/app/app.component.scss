@@ -1,0 +1,19 @@
+.oddBusiness {
+  color: blue;
+  background-color: lightblue;
+}
+
+.no-spinners {
+  -moz-appearance: textfield;
+}
+
+.no-spinners::-webkit-outer-spin-button,
+.no-spinners::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#firstAnimation {
+  width: 200px;
+  height: 200px;
+}

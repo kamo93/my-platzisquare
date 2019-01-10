@@ -1,0 +1,62 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/lugares">Lugares</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Crear Lugar</li>
+  </ol>
+</nav>
+<div class="container mb-4">
+  <form [name]="formNewPlaces" ngForm="formNewPlaces" novalidate>
+    <div>
+      <label for="name">Nombre</label>
+      <input id="name" name="name" type="text" class="form-control" autocomplete="off" [(ngModel)]="newPlace.nombre" />
+    </div>
+    <div>
+      <label for="distance">Distancia</label>
+      <input
+        id="distance"
+        name="distance"
+        type="number"
+        class="form-control no-spinners"
+        [(ngModel)]="newPlace.distancia"
+      />
+    </div>
+    <div>
+      <label for="proximity">Cercania</label>
+      <input
+        id="proximity"
+        name="proximity"
+        type="number"
+        class="form-control no-spinners"
+        [(ngModel)]="newPlace.cercania"
+      />
+    </div>
+    <div>
+      <label for="description">Descripción</label>
+      <textarea id="description" class="form-control" name="description" [(ngModel)]="newPlace.descripcion"></textarea>
+    </div>
+    <div>
+      <label for="plan">Plan</label>
+      <select name="placePlan" id="plan" name="plan" class="form-control" [(ngModel)]="newPlace.plan">
+        <option *ngFor="let planOpt of planOpts" [ngValue]="planOpt.value">{{ planOpt.label }}</option>
+      </select>
+    </div>
+    <h3>Datos de dirección</h3>
+    <div>
+      <label for="street">Calle y número</label>
+      <input id="street" name="street" type="text" class="form-control no-spinners" [(ngModel)]="newPlace.street" />
+    </div>
+    <div>
+      <label for="city">Ciudad</label>
+      <input id="city" name="city" type="text" class="form-control no-spinners" [(ngModel)]="newPlace.city" />
+    </div>
+    <div>
+      <label for="country">País</label>
+      <input id="country" name="country" type="text" class="form-control no-spinners" [(ngModel)]="newPlace.country" />
+    </div>
+    <hr />
+    <div>
+      <button class="btn btn-primary mr-2" (click)="savePLace(formNewPlaces)">Enviar</button>
+      <button class="btn btn-defualt" routerLink="/lugares">Cancelar</button>
+    </div>
+  </form>
+</div>
